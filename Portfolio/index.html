@@ -1,392 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohammad AlShiblaq | Digital Space</title>
-    <style>
-        /* Modern Midnight Palette */
-        :root {
-            --bg-dark: #1e272e;
-            --bg-light: #f1f2f6;
-            --accent: #00d2d3; /* Cyan/Neon Blue */
-            --text-main: #2f3640;
-            --card-white: #ffffff;
-        }
-
-        html { scroll-behavior: smooth; } /* Makes bookmark jumping smooth */
-
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            background-color: var(--bg-light);
-        }
-
-        /* Navigation */
-        nav {
-            background-color: var(--bg-dark);
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        nav a:hover { color: var(--accent); }
-
-        /* Home Section */
-        #home {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--bg-dark);
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        #home h1 { font-size: 3rem; margin-bottom: 10px; }
-        #home span { color: var(--accent); }
-
-        /* General Section Styling */
-        section {
-            padding: 100px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
-
-        h2 {
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background: var(--accent);
-            margin: 10px auto;
-        }
-
-        /* Image Gallery Grid */
-        .visual-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-
-        .visual-grid img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            filter: grayscale(40%);
-            transition: 0.4s;
-            border-radius: 4px;
-            cursor: pointer; /* Cue to indicate it's clickable */
-        }
-
-        .visual-grid img:hover {
-            filter: grayscale(0%);
-            transform: scale(1.02);
-        }
-
-        /* Video Section */
-        .video-box {
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .video-box iframe {
-            display: block;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-        }
-
-        /* Form Styling */
-        .contact-container {
-            background: var(--card-white);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .input-row { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: #fafafa;
-        }
-
-        button {
-            background: var(--bg-dark);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        button:hover { background: var(--accent); color: var(--bg-dark); }
-
-        /* Footer */
-        footer {
-            background: #111;
-            color: #777;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        /* Lightbox Modal System */
-        .lightbox-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(30, 39, 46, 0.95);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            user-select: none;
-        }
-
-        .lightbox-content-wrapper {
-            position: relative;
-            max-width: 85%;
-            max-height: 80%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .lightbox-img {
-            max-width: 100%;
-            max-height: 75vh;
-            object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Controls styling */
-        .lightbox-btn {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 2rem;
-            font-weight: bold;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.2s;
-            top: 50%;
-            transform: translateY(-50%);
-            width: auto;
-            z-index: 2100;
-        }
-
-        .lightbox-btn:hover {
-            background: var(--accent);
-            color: var(--bg-dark);
-            border-color: var(--accent);
-        }
-
-        .lightbox-prev { left: -80px; }
-        .lightbox-next { right: -80px; }
-
-        .lightbox-close {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            font-size: 2.5rem;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .lightbox-close:hover { color: var(--accent); }
-
-        .lightbox-counter {
-            position: absolute;
-            bottom: -35px;
-            color: #fff;
-            font-size: 1rem;
-            letter-spacing: 1px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Responsive Lightbox Adaptations */
-        @media (max-width: 768px) {
-            .lightbox-prev { left: 10px; top: auto; bottom: -60px; transform: none; }
-            .lightbox-next { right: 10px; top: auto; bottom: -60px; transform: none; }
-            .lightbox-counter { bottom: -52px; width: 100%; text-align: center; }
-            .lightbox-close { right: 10px; top: -45px; }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mohammad AlShiblaq</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-<body>
 
-    <nav>
-        <a href="#home">Start</a>
-        <a href="#visuals">Visuals</a>
-        <a href="#stream">Stream</a>
-        <a href="#connect">Connect</a>
-    </nav>
+<body class="Background">   
 
-    <header id="home">
-        <h1>Project <span>Space</span></h1>
-        <p>A digital showcase by Mohammad AlShiblaq</p>
-    </header>
+    <div class="Navbar">
+        <a class="active" href="#Home">Home</a>
+        <a href="#Slideshow">Slideshow</a>
+        <a href="#About">About</a>
+        <a href="#GitHub">GitHub</a>
+        <a onclick="openForm()" ondblclick="closeForm()" class="contact">Contact</a>
+    </div>
 
-    <section id="visuals">
-        <h2>Inspiration Gallery</h2>
-        <div class="visual-grid">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" alt="Tech Setup">
-            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Retro Hardware">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80" alt="Digital Abstract">
-        </div>
-    </section>
+    <div id="Home">
+        <video autoplay muted loop id="Typing_Video">
+            <source src="https://cdn.pixabay.com/video/2015/10/16/1046-142621379_tiny.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
 
-    <div id="lightbox" class="lightbox-modal">
-        <div class="lightbox-content-wrapper">
-            <span class="lightbox-close" id="lightboxClose">&times;</span>
-            <button class="lightbox-btn lightbox-prev" id="lightboxPrev">&#10094;</button>
-            <img class="lightbox-img" id="lightboxImg" src="" alt="Popup View">
-            <button class="lightbox-btn lightbox-next" id="lightboxNext">&#10095;</button>
-            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    <div class="Video_Text">
+        <h1 class="white-text">Mohammad AlShiblaq's Portfolio</h1>
+        <strong>
+            <p class="center quote">
+                <q>The computer programmer is a creator of universes for which he alone is the lawgiver.
+                    <br>No playwright, no stage director, no emperor, however powerful, has ever exercised such absolute authority to arrange a stage or
+                    <br>field of battle and to command such unswervingly dutiful actors or troops.
+                </q>
+                <br> - Joseph Weizenbaum<br><br>
+                My name is Mohammad AlShiblaq. Welcome to my portfolio website. Here, I will share a bit about my background, skills, and coding experience.
+                <br><br>
+                Thank you for visiting — I hope you enjoy browsing my work!
+            </p>
+        </strong>
+    </div>
+
+    <div id="Slideshow">
+        <div id="Slideshow_Background"> 
+            <div id="Slideshow_Container">
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2014/12/27/15/40/office-581131_1280.jpg" alt="Collaboration space">
+                    <div class="text">I'm ready to collaborate on exciting projects!</div>
+                </div>
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png" alt="Programming screen"> 
+                    <div class="text">I’m trained in HTML, CSS, and JavaScript</div>
+                </div>
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2015/05/31/15/14/woman-792162_1280.jpg" alt="Data analysis">
+                    <div class="text">Skilled in Python and data handling</div>
+                </div>
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2015/12/09/15/51/code-1084923_1280.png" alt="Code block structure">
+                    <div class="text">Experienced with C#, ASP.NET, MVC</div>
+                </div>
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2015/01/08/18/26/man-593333_1280.jpg" alt="Developer desk setup"> 
+                    <div class="text">Backend development & SQL databases</div>
+                </div>
+                <div class="mySlides fade">
+                    <img class="Slideshow_Images" src="https://cdn.pixabay.com/photo/2015/01/08/18/26/man-593333_1280.jpg" alt="Developer desk setup alternative view"> 
+                    <div class="text"><a class="white-text contact" onclick="openForm()">Get in touch with me!</a></div> 
+                </div>
+                <a class="Previous" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="Next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+            <div style="text-align: center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span> 
+                <span class="dot" onclick="currentSlide(4)"></span> 
+                <span class="dot" onclick="currentSlide(5)"></span> 
+                <span class="dot" onclick="currentSlide(6)"></span> 
+            </div>
         </div>
     </div>
 
-    <section id="stream">
-        <h2>Featured Stream</h2>
-        <div class="video-box">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                    title="Video Embed" 
-                    frameborder="0" 
-                    allowfullscreen></iframe>
+    <div class="Row" id="About">
+        <div class="Column_2">
+            <img src="https://cdn.pixabay.com/photo/2019/04/25/14/43/workplace-4155023_1280.jpg" alt="Laptop on workspace">
         </div>
-    </section>
+        <div class="Column_1">
+            <h1>About</h1>
+            <p>
+                I'm Mohammad AlShiblaq, a passionate student developer who loves solving problems with code.
+                <br><br>
+                I'm currently advancing my skills in full-stack development. I graduated from
+                <a href="https://www.learncodinganywhere.com" target="_blank" rel="noopener noreferrer">The Tech Academy</a>’s Software Developer Boot Camp and have been trained in:
+                HTML, CSS, JavaScript, SQL, Python, and C#.
+                <br><br>
+                I aim to build useful, creative applications and work collaboratively on innovative tech projects.
+                <a onclick="openForm()" class="contact">Let’s connect!</a>
+            </p>
+        </div>
+    </div>
 
-    <section id="connect">
-        <h2>Get In Touch</h2>
-        <div class="contact-container">
-            <form action="#">
-                <div class="input-row">
-                    <label for="username">Name</label>
-                    <input type="text" id="username" placeholder="Mohammad AlShiblaq" required>
-                </div>
-                <div class="input-row">
-                    <label for="useremail">Email</label>
-                    <input type="email" id="useremail" placeholder="example@email.com" required>
-                </div>
-                <div class="input-row">
-                    <label for="thoughts">Message</label>
-                    <textarea id="thoughts" rows="5" placeholder="Share your thoughts..."></textarea>
-                </div>
-                <button type="submit">Submit Request</button>
+    <div class="Row" id="GitHub">
+        <div class="Column_1">
+            <h1>GitHub</h1>
+            <p>Take a look at my coding projects on GitHub:</p>
+            <p class="center"><a href="https://github.com/Mohammad-AlShiblaq" target="_blank" rel="noopener noreferrer">My GitHub</a></p>
+        </div>
+        <div class="Column_2">
+            <a href="https://github.com/Mohammad-AlShiblaq" target="_blank" rel="noopener noreferrer">
+                <img src="https://cdn.pixabay.com/photo/2021/09/23/06/59/github-6648895_1280.jpg" alt="GitHub Logo">
+            </a>
+        </div>
+    </div>
+
+    <div id="Contact">
+        <button onclick="openForm()" class="Pop_Up_Button">CONTACT</button>
+        <div class="form-popup" id="myForm" ondblclick="closeForm()">
+            <form action="" method="POST" class="form-container">
+                <h1>Contact</h1>
+                <label for="name"><b>Name</b></label>
+                <input type="text" placeholder="Type your name here" name="name" id="name" required>
+                <label for="phone"><b>Phone</b></label>
+                <input type="text" placeholder="Type your phone number here" name="phone" id="phone">
+                <label for="email"><b>Email</b></label>     
+                <input type="email" placeholder="Type your email address here" name="email" id="email" required>
+                <label for="message"><b>Message</b></label>
+                <input type="text" placeholder="Type your message here" name="message" id="message">
+                <button type="submit" class="btn">SUBMIT</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">CLOSE</button>
             </form>
         </div>
-    </section>
+    </div>
 
     <footer>
-        <p>Built with HTML & CSS | 2026 Student Project</p>
-        <p>User Identity: <strong>Mohammad AlShiblaq</strong></p>
+        <p class="center">&copy; Mohammad AlShiblaq, <a href="https://github.com/Mohammad-AlShiblaq" target="_blank" rel="noopener noreferrer">My GitHub</a></p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const galleryImages = document.querySelectorAll('.visual-grid img');
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightboxImg');
-            const closeBtn = document.getElementById('lightboxClose');
-            const prevBtn = document.getElementById('lightboxPrev');
-            const nextBtn = document.getElementById('lightboxNext');
-            const counter = document.getElementById('lightboxCounter');
-
-            let currentIndex = 0;
-
-            // Open Lightbox
-            galleryImages.forEach((img, index) => {
-                img.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateLightbox();
-                    lightbox.style.display = 'flex';
-                });
-            });
-
-            // Update contents and counter
-            function updateLightbox() {
-                const targetImg = galleryImages[currentIndex];
-                lightboxImg.src = targetImg.src;
-                lightboxImg.alt = targetImg.alt;
-                counter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
-            }
-
-            // Directional triggers
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % galleryImages.length;
-                updateLightbox();
-            }
-
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-                updateLightbox();
-            }
-
-            function closeLightbox() {
-                lightbox.style.display = 'none';
-            }
-
-            // Click Event Listeners
-            nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextSlide(); });
-            prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevSlide(); });
-            closeBtn.addEventListener('click', closeLightbox);
-            
-            // Close lightbox if background is clicked
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            // Keyboard navigation binds
-            document.addEventListener('keydown', (e) => {
-                if (lightbox.style.display === 'flex') {
-                    if (e.key === 'ArrowRight') nextSlide();
-                    if (e.key === 'ArrowLeft') prevSlide();
-                    if (e.key === 'Escape') closeLightbox();
-                }
-            });
-        });
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
